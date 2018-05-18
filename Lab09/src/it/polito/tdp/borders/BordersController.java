@@ -82,24 +82,29 @@ public class BordersController {
 				
 			List<Country> vicini = model.cercaVicini(country) ;
 			
+			if(!vicini.isEmpty()) {
 				txtResult.appendText("Ecco la lista degli stati raggiungibili:\n");
 				
 				for(Country c:vicini) {
 					txtResult.appendText(c.getStateName() + "\n");
 				}
 				
-			
+			}
 			
 			
     	} catch(NumberFormatException nfe) {
 			txtResult.appendText("Inserire un anno valido sotto forma di numero intero\n");
 			
-		}catch(IllegalArgumentException iae) {
+		} catch(IllegalArgumentException iae) {
 			txtResult.appendText("L'anno deve essere compreso nell'intervallo [1816, 2006]\n");
+			
+		} catch(NoSuchFieldException nsfe) {
+			txtResult.appendText("Lo stato selezionato non confina con altri stati\n");
 			
 		} catch(Exception e) {
 			txtResult.appendText("Seleziona uno stato\n");
-		}
+			
+		} 
     }
 
 	@FXML // This method is called by the FXMLLoader when initialization is complete

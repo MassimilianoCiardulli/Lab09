@@ -55,6 +55,7 @@ public class Model {
 	}
 
 	public int getCC() {
+		
 		Set<Country> visitati = new HashSet<>();		
 		
 		DepthFirstIterator<Country, DefaultEdge> dfv = new DepthFirstIterator<>(this.graph);
@@ -73,24 +74,29 @@ public class Model {
 		return list;
 	}
 
-	public List<Country> cercaVicini(String country) {
+	public List<Country> cercaVicini(String country) throws NoSuchFieldException {
 		
 		Country start = countryIdMap.get(country);
 		
-		if(start != null) {
+		if(start != null && this.graph.containsVertex(start)) {
 			
 			List<Country> visitati = new ArrayList<Country>();
 			
 			BreadthFirstIterator<Country, DefaultEdge> bfv = new BreadthFirstIterator<>(this.graph, start);
 			
 			while(bfv.hasNext()) {
-				visitati.add(bfv.next());
+				Country c = bfv.next();
+				if(!c.equals(start))
+					visitati.add(c);
 			}
 			
 			Collections.sort(visitati);
 
 			return visitati ;
 		}
+		
+		if(!this.graph.containsVertex(start))
+			throw new NoSuchFieldException();
 		
 		return null ;
 	}
